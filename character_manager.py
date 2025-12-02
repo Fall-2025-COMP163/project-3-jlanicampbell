@@ -223,7 +223,7 @@ def gain_experience(character, xp_amount):
         character["strength"] += 2
         character["magic"] += 2
         character["health"] = character["max_health"]
-        
+
 def add_gold(character, amount):
     """
     Add gold to character's inventory
@@ -235,10 +235,18 @@ def add_gold(character, amount):
     Returns: New gold total
     Raises: ValueError if result would be negative
     """
-    # TODO: Implement gold management
-    # Check that result won't be negative
-    # Update character's gold
-    pass
+    current_gold = character.get("gold", 0)
+
+    # Checks if the new total would be negative
+    total_gold = current_gold + amount
+    if total_gold < 0:
+        raise ValueError("Stack your bread, you out of gold dawg!")
+
+    # Update the character's gold
+    character["gold"] = total_gold
+
+    return total_gold
+    
 
 def heal_character(character, amount):
     """
