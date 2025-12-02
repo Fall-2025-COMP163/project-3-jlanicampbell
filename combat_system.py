@@ -89,7 +89,15 @@ def get_random_enemy_for_level(character_level):
     # TODO: Implement level-appropriate enemy selection
     # Use if/elif/else to select enemy type
     # Call create_enemy with appropriate type
-    pass
+
+    if character_level in range(1, 3): # Level 1/Level 2 characters start off by fight Goblins
+        return create_enemy(enemy_type="goblin")
+    
+    elif character_level in range(3, 6): # Characters with levels 3-5 fight Orcs
+        return create_enemy(enemy_type="orc")
+    
+    elif character_level >= 6: # Characters level 6 and above fight Dragons. 
+        return create_enemy(enemy_type="dragon")
 
 # ============================================================================
 # COMBAT SYSTEM
