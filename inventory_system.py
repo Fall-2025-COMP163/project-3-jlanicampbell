@@ -288,7 +288,7 @@ def equip_armor(character, item_id, item_data):
 
     return f"Equipped {item_id}, {stat} increased by {value}"
 
-def unequip_weapon(character):
+def unequip_weapon(character, item_data):
     """
     Remove equipped weapon and return it to inventory
     
@@ -300,7 +300,28 @@ def unequip_weapon(character):
     # Remove stat bonuses
     # Add weapon back to inventory
     # Clear equipped_weapon from character
-    pass
+   
+    equipped = character.get("equipped_weapon")
+
+    if not equipped:
+        return None  # nothing to unequip
+
+    # Check inventory space
+    if get_inventory_space_remaining(character) <= 0:
+        raise InventoryFullError("Inventory is full")
+
+    weapon_data = item_data[equipped]
+    stat, value = weapon_data["effect"].split(":")
+    character[stat] -= int(value)  # remove stat bonus
+
+    # Return weapon to inventory
+    character["inventory"].append(equipped)
+
+    # Clear equipped weapon
+    character["equipped_weapon"] = None
+
+    return equipped
+
 
 def unequip_armor(character):
     """
