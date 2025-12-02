@@ -182,9 +182,15 @@ def delete_character(character_name, save_directory="data/save_games"):
     Returns: True if deleted successfully
     Raises: CharacterNotFoundError if character doesn't exist
     """
-    # TODO: Implement character deletion
-    # Verify file exists before attempting deletion
-    pass
+    # builds the filepath system to retrieve information
+
+    filename = f"{character_name}_save.txt"
+    filepath = os.path.join(save_directory, filename)
+    if not os.path.exists(filepath):
+        raise CharacterNotFoundError(f"Character {character_name} was not found.")
+    os.remove(filepath)
+
+    return True
 
 # ============================================================================
 # CHARACTER OPERATIONS
