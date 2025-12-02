@@ -256,10 +256,13 @@ def heal_character(character, amount):
     
     Returns: Actual amount healed
     """
-    # TODO: Implement healing
-    # Calculate actual healing (don't exceed max_health)
-    # Update character health
-    pass
+    if character["health"] <= 0:
+        raise CharacterDeadError("Character is dead, heal failed.")
+    
+    normal_character_health = character["health"]
+    character["health"] = min(character["health"] + amount, character["max_health"]) # checks which value between the arguments is the smaller one
+
+    return character["health"] - normal_character_health
 
 def is_character_dead(character):
     """
