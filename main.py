@@ -465,7 +465,47 @@ def explore():
     # Start combat with combat_system.SimpleBattle
     # Handle combat results (XP, gold, death)
     # Handle exceptions
-    pass
+    
+    print("\n=== EXPLORING... ===")
+
+    try:
+        # Generate a level-appropriate enemy
+        enemy = combat_system.generate_enemy(current_character["level"])
+        print(f"You encountered a {enemy['name']}!")
+
+        # Start combat
+        battle = combat_system.SimpleBattle(current_character, enemy)
+        result = battle.start()
+
+        if result == "victory":
+            rewards = combat_system.get_victory_rewards(enemy)
+            xp = rewards["xp"]
+            gold = rewards["gold"]
+
+            current_character["experience"] += xp
+            current_character["gold"] += gold
+
+            print(f"You defeated the {enemy['name']}!")
+            print(f"Rewards: +{xp} XP, +{gold} gold")
+
+        elif result == "defeat":
+            print("You were defeated in battle...")
+            raise CharacterDeadError("Your character has died.")
+
+        else:
+            print("Combat ended unexpectedly.")
+
+    except CombatError as e:
+        print(f"Combat error: {e}")
+
+    except CharacterDeadError as e:
+        print(f"\n*** GAME OVER ***\n{e}")
+        print("Load a saved game to continue.")
+        return
+
+    except Exception as e:
+        print(f"Unexpected error during exploration: {e}")
+    
 
 def shop():
     """Shop menu for buying/selling items"""
