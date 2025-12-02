@@ -98,7 +98,9 @@ def count_item(character, item_id):
     """
     # TODO: Implement item counting
     # Use list.count() method
-    pass
+    
+    return character["inventory"].count(item_id)
+
 
 def get_inventory_space_remaining(character):
     """
