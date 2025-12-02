@@ -76,7 +76,6 @@ def new_game():
     
     Creates character and starts game loop
     """
-    global current_character
     
     # TODO: Implement new game creation
     # Get character name from user
@@ -85,7 +84,39 @@ def new_game():
     # Handle InvalidCharacterClassError
     # Save character
     # Start game loop
-    pass
+    
+    global current_character
+
+    from character_manager import save_character # Imports at the top are apparently not working
+
+    print("=== CREATE NEW CHARACTER ===")
+    
+    while True: # While loop for name entering
+        name = input("Enter character name: ").strip()
+        if name:
+            break
+        print("Name cannot be empty.")
+
+    valid_classes = ["Warrior", "Mage", "Rogue", "Cleric"]
+    while True:
+        print(f"Choose a class: {', '.join(valid_classes)}")
+        character_class = input("Enter class: ").strip()
+        try:
+            current_character = current_character(name, character_class)
+            break
+        except InvalidCharacterClassError as e:
+            print(f"Error: {e}. Please choose a valid class.")
+
+    # Save character immediately
+    try:
+        save_character(current_character)
+        print(f"Character {current_character['name']} created and saved successfully!")
+    except Exception as e:
+        print(f"Warning: Could not save character. {e}")
+
+    # TODO: Replace with actual game loop
+    print("Starting game loop... (placeholder)")
+    # start_game_loop(current_character)
 
 def load_game():
     """
