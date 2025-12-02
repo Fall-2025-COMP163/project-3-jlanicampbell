@@ -281,7 +281,39 @@ def view_character_stats():
     # Show: name, class, level, health, stats, gold, etc.
     # Use character_manager functions
     # Show quest progress using quest_handler
-    pass
+    
+    if not current_character:
+        print("No character loaded.")
+        return
+
+    print("\n=== CHARACTER STATS ===")
+    print(f"Name: {current_character['name']}")
+    print(f"Class: {current_character['class']}")
+    print(f"Level: {current_character['level']}")
+    print(f"XP: {current_character['experience']}")
+    print(f"Gold: {current_character['gold']}")
+    print(f"Health: {current_character['health']}/{current_character['max_health']}")
+    print(f"Strength: {current_character['strength']}")
+    print(f"Magic: {current_character['magic']}")
+
+    # Quest progress
+    active = current_character.get("active_quests", [])
+    completed = current_character.get("completed_quests", [])
+
+    print("\nActive Quests:")
+    if active:
+        for q in active:
+            print(f" - {q}")
+    else:
+        print(" (None)")
+
+    print("\nCompleted Quests:")
+    if completed:
+        for q in completed:
+            print(f" - {q}")
+    else:
+        print(" (None)")
+ 
 
 def view_inventory():
     """Display and manage inventory"""
