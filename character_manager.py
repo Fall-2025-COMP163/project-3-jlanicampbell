@@ -270,8 +270,15 @@ def is_character_dead(character):
     
     Returns: True if dead, False if alive
     """
-    # TODO: Implement death check
-    pass
+    current_health = character.get("health", 0) # reads character's health
+
+    if current_health <= 0:
+        print("Character is currently dead.")
+        return True # returns true since the character has no health
+    else:
+        print("Character is still alive.")
+        return False # returns false since the character still has health    
+
 
 def revive_character(character):
     """
