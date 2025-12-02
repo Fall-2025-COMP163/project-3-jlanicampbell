@@ -403,7 +403,58 @@ def quest_menu():
     #   6. Complete Quest (for testing)
     #   7. Back
     # Handle exceptions from quest_handler
-    pass
+    
+    print("\n=== QUEST MENU ===")
+    print("1. View Active Quests")
+    print("2. View Available Quests")
+    print("3. View Completed Quests")
+    print("4. Accept Quest")
+    print("5. Abandon Quest")
+    print("6. Complete Quest (TEST ONLY)")
+    print("7. Back")
+
+    try:
+        choice = int(input("Select an option: "))
+    except ValueError:
+        print("Invalid input.")
+        return
+
+    if choice == 7:
+        return
+
+    if choice == 1:
+        quest_handler.display_active_quests(current_character, all_quests)
+
+    elif choice == 2:
+        quest_handler.display_available_quests(current_character, all_quests)
+
+    elif choice == 3:
+        quest_handler.display_completed_quests(current_character, all_quests)
+
+    elif choice == 4:
+        quest_id = input("Enter quest ID to accept: ").strip()
+        try:
+            quest_handler.accept_quest(current_character, quest_id, all_quests)
+            print("Quest accepted!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    elif choice == 5:
+        quest_id = input("Enter quest ID to abandon: ").strip()
+        try:
+            quest_handler.abandon_quest(current_character, quest_id)
+            print("Quest abandoned.")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    elif choice == 6:
+        # For testing only
+        quest_id = input("Enter quest ID to force-complete: ").strip()
+        try:
+            quest_handler.complete_quest(current_character, quest_id, all_quests)
+            print("Quest completed! (test mode)")
+        except Exception as e:
+            print(f"Error: {e}")
 
 def explore():
     """Find and fight random enemies"""
