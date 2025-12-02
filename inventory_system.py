@@ -411,7 +411,21 @@ def sell_item(character, item_id, item_data):
     # Calculate sell price (cost // 2)
     # Remove item from inventory
     # Add gold to character
-    pass
+    
+    # check inventory exists
+    if 'inventory' not in character or item_id not in character['inventory']:
+        raise ItemNotFoundError(f"Item '{item_id}' not found in inventory.")
+
+    # Remove item from inventory
+    character['inventory'].remove(item_id)
+
+    # Gain half of the item's cost
+    cost = item_data["cost"]
+    gold_gained = cost // 2
+    
+    character['gold'] += gold_gained
+
+    return gold_gained
 
 # ============================================================================
 # HELPER FUNCTIONS
