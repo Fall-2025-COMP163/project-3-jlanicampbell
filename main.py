@@ -648,7 +648,30 @@ def handle_character_death():
     # Offer: Revive (costs gold) or Quit
     # If revive: use character_manager.revive_character()
     # If quit: set game_running = False
-    pass
+    
+    print("\n===== YOU HAVE DIED =====")
+    print("Want to revive? Choose an option:\n")
+
+    while True:
+        print("1. Revive (cost: 50 gold)")
+        print("2. Quit to Main Menu")
+
+        choice = input("Choose an option: ")
+
+        if choice == "1":
+            if current_character.gold >= 50:
+                current_character.gold -= 50
+                character_manager.revive_character(current_character)
+                print("\nYou have been revived!\n")
+                return
+            else:
+                print("Not enough gold to revive!")
+        elif choice == "2":
+            print("Returning to main menu…")
+            game_running = False
+            return
+        else:
+            print("Invalid choice.")
 
 def display_welcome():
     """Display welcome message"""
