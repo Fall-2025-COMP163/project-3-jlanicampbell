@@ -269,7 +269,20 @@ def parse_quest_block(lines):
     # Split each line on ": " to get key-value pairs
     # Convert numeric strings to integers
     # Handle parsing errors gracefully
-    pass
+    
+    quest = {}
+    try:
+        for line in lines:
+            if not line.strip():
+                continue  # skip empty lines
+            key, value = line.strip().split(": ", 1)
+            if key in ["REWARD_XP", "REWARD_GOLD", "REQUIRED_LEVEL"]:
+                value = int(value)
+            quest[key] = value
+    except Exception as e:
+        raise InvalidDataFormatError(f"Failed to parse quest block: {e}")
+    
+    return quest
 
 def parse_item_block(lines):
     """
