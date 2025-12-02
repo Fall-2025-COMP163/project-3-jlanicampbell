@@ -134,7 +134,47 @@ def load_game():
     # Try to load character with character_manager.load_character()
     # Handle CharacterNotFoundError and SaveFileCorruptedError
     # Start game loop
-    pass
+    
+    from character_manager import list_saved_characters, load_character # The imports at the top are apparently not working
+
+    # 1. Get list of saved characters
+    saved_characters = list_saved_characters()  # from character_manager
+    
+    if not saved_characters:
+        print("No saved characters found.")
+        return
+    
+    # 2. Display characters
+    print("Saved Characters:")
+    for idx, name in enumerate(saved_characters, 1):
+        print(f"{idx}. {name}")
+    
+    # 3. Prompt user to select
+    while True:
+        try:
+            choice = int(input(f"Select a character (1-{len(saved_characters)}): "))
+            if 1 <= choice <= len(saved_characters):
+                character_name = saved_characters[choice - 1]
+                break
+            else:
+                print("Invalid choice, try again.")
+        except ValueError:
+            print("Please enter a number.")
+    
+    # 4. Attempt to load character
+    try:
+        current_character = load_character(character_name)
+        print(f"Loaded character: {current_character['name']}")
+    except CharacterNotFoundError:
+        print("Error: Character not found.")
+        return
+    except SaveFileCorruptedError:
+        print("Error: Save file is corrupted.")
+        return
+    
+    # 5. Start game loop
+    game_loop()
+
 
 # ============================================================================
 # GAME LOOP
