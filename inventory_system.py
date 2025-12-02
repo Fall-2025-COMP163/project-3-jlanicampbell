@@ -481,7 +481,30 @@ def display_inventory(character, item_data_dict):
     # TODO: Implement inventory display
     # Count items (some may appear multiple times)
     # Display with item names from item_data_dict
-    pass
+    
+    inventory = character["inventory"]
+
+    if not inventory:
+        print("\nInventory is empty.")
+        return
+
+    print("\n=== INVENTORY ===")
+
+    # Count items
+    item_counts = {}
+    for item_id in inventory:
+        item_counts[item_id] = item_counts.get(item_id, 0) + 1
+
+    # Display items
+    for item_id, count in item_counts.items():
+        item_info = item_data_dict[item_id]
+        name = item_info["name"]
+        item_type = item_info["type"]
+
+        print(f"{name} ({item_type}) x{count}")
+
+    print("=================\n")
+
 
 # ============================================================================
 # TESTING
