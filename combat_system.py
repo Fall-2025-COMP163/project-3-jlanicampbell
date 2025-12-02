@@ -298,7 +298,11 @@ class SimpleBattle:
         Reduces health, prevents negative health
         """
         # TODO: Implement damage application
-        pass
+        
+        target["health"] -= damage
+
+        if target["health"] <= 0:
+            target["health"] = 0 # Prevents negative health
     
     def check_battle_end(self):
         """
