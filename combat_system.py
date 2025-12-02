@@ -112,11 +112,21 @@ class SimpleBattle:
     
     def __init__(self, character, enemy):
         """Initialize battle with character and enemy"""
+
+        # Initialize characters and enimes for battle 
+        self.character = character 
+        self.enemy = enemy
+
+        self.enemy_active = True
+
+        # turn counter starts at 0 at beginning of battle
+        self.turn_counter = 0
+
         # TODO: Implement initialization
         # Store character and enemy
         # Set combat_active flag
         # Initialize turn counter
-        pass
+       
     
     def start_battle(self):
         """
