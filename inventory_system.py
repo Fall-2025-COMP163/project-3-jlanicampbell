@@ -459,7 +459,14 @@ def apply_stat_effect(character, stat_name, value):
     # TODO: Implement stat application
     # Add value to character[stat_name]
     # If stat is health, ensure it doesn't exceed max_health
-    pass
+    
+    # Apply the stat increase
+    character[stat_name] += value
+
+    # Health cannot exceed max_health
+    if stat_name == "health":
+        if character["health"] > character["max_health"]:
+            character["health"] = character["max_health"]
 
 def display_inventory(character, item_data_dict):
     """
