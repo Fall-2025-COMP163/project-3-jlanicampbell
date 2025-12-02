@@ -423,14 +423,21 @@ def cleric_heal(character):
 # COMBAT UTILITIES
 # ============================================================================
 
-def can_character_fight(character):
+def can_character_fight(character, combat_active):
     """
     Check if character is in condition to fight
     
     Returns: True if health > 0 and not in battle
     """
     # TODO: Implement fight check
-    pass
+    
+    if character["health"] > 0 and combat_active == False:
+        print("Character is available for battle")
+        return True
+    
+    else:
+        return False
+    
 
 def get_victory_rewards(enemy):
     """
