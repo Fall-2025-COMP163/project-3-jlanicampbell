@@ -446,7 +446,12 @@ def get_victory_rewards(enemy):
     Returns: Dictionary with 'xp' and 'gold'
     """
     # TODO: Implement reward calculation
-    pass
+    
+    # xp/gold dictionary, used .get() to prevent any key errors
+    return {
+        "xp": enemy.get("xp_reward", 0),
+        "gold": enemy.get("gold_reward", 0)
+    }
 
 def display_combat_stats(character, enemy):
     """
