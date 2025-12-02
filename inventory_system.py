@@ -37,7 +37,16 @@ def add_item_to_inventory(character, item_id):
     # TODO: Implement adding items
     # Check if inventory is full (>= MAX_INVENTORY_SIZE)
     # Add item_id to character['inventory'] list
-    pass
+    
+    
+    inventory = character.get("inventory", []) # checks character inventory
+
+    if len(inventory) >= MAX_INVENTORY_SIZE:
+        raise InventoryFullError("Character inventory at maximum capacity. Unable to add more items")
+    
+    inventory.append(item_id)
+
+    character["inventory"] = inventory
 
 def remove_item_from_inventory(character, item_id):
     """
