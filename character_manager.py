@@ -86,11 +86,23 @@ def save_character(character, save_directory="data/save_games"):
     Returns: True if successful
     Raises: PermissionError, IOError (let them propagate or handle)
     """
-    # TODO: Implement save functionality
-    # Create save_directory if it doesn't exist
-    # Handle any file I/O errors appropriately
-    # Lists should be saved as comma-separated values
-    pass
+    os.makedirs(save_directory, exist_ok=True)
+
+    # Build the save file path using character's name
+    filepath = os.path.join(save_directory, f"{character['name']}_save.txt")
+
+    try:
+        with open(filepath, "w") as f:
+            for key, value in character.items():
+                # If the value is a list (like inventory or quests), join it as comma-separated
+                if isinstance(value, list):
+                    value = ",".join(value)
+                # Write the line as key:value
+                f.write(f"{key}:{value}\n")
+        return True
+    except Exception as e:
+        # Could log e here if needed
+        return False
 
 def load_character(character_name, save_directory="data/save_games"):
     """
