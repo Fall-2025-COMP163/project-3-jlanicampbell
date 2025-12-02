@@ -444,7 +444,9 @@ def parse_item_effect(effect_string):
     # TODO: Implement effect parsing
     # Split on ":"
     # Convert value to integer
-    pass
+    
+    stat, value = effect_string.split(":")
+    return stat, int(value)
 
 def apply_stat_effect(character, stat_name, value):
     """
