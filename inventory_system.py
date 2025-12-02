@@ -109,7 +109,10 @@ def get_inventory_space_remaining(character):
     Returns: Integer representing available slots
     """
     # TODO: Implement space calculation
-    pass
+    
+    current_size = len(character["inventory"])
+    return MAX_INVENTORY_SIZE - current_size
+
 
 def clear_inventory(character):
     """
