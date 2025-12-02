@@ -382,7 +382,10 @@ def warrior_power_strike(character, enemy):
     """Warrior special ability"""
     # TODO: Implement power strike
     # Double strength damage
-    pass
+    
+    damage = character["strength"] * 2
+    enemy["health"] -= damage
+    return f'{character["name"]} used Power Strike for {damage} damage!'
 
 def mage_fireball(character, enemy):
     """Mage special ability"""
