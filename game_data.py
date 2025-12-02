@@ -295,7 +295,21 @@ def parse_item_block(lines):
     Raises: InvalidDataFormatError if parsing fails
     """
     # TODO: Implement parsing logic
-    pass
+    
+    item = {}
+    try:
+        for line in lines:
+            if not line.strip():
+                continue  # skip empty lines
+            key, value = line.strip().split(": ", 1)
+            if key == "COST":
+                value = int(value)
+            item[key] = value
+    except Exception as e:
+        raise InvalidDataFormatError(f"Failed to parse item block: {e}")
+    
+    return item
+
 
 # ============================================================================
 # TESTING
