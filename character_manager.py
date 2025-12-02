@@ -210,13 +210,20 @@ def gain_experience(character, xp_amount):
     
     Raises: CharacterDeadError if character health is 0
     """
-    # TODO: Implement experience gain and leveling
-    # Check if character is dead first
-    # Add experience
-    # Check for level up (can level up multiple times)
-    # Update stats on level up
-    pass
+    if character["health"] == 0:
+        raise CharacterDeadError("Character is dead, cannot gain experience.")
 
+# while loop keeps leveling up the character until the experience equals the level * 100
+    character["experience"] += xp_amount
+    while character["experience"] >= character["level"] * 100:
+        level_up_xp = character["level"] * 100
+        character["experience"] -= level_up_xp
+        character["level"] += 1
+        character["max_health"] += 10
+        character["strength"] += 2
+        character["magic"] += 2
+        character["health"] = character["max_health"]
+        
 def add_gold(character, amount):
     """
     Add gold to character's inventory
