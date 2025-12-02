@@ -363,7 +363,20 @@ def use_special_ability(character, enemy):
     # Execute appropriate ability
     # Track cooldowns (optional advanced feature)
     
-    
+    if character["class"] == "Warrior":
+        return warrior_power_strike(character, enemy)
+
+    elif character["class"] == "Mage":
+        return mage_fireball(character, enemy)
+
+    elif character["class"] == "Rogue":
+        return rogue_critical_strike(character, enemy)
+
+    elif character["class"] == "Cleric":
+        return cleric_heal(character)
+
+    else:
+        return "No special ability available."
 
 def warrior_power_strike(character, enemy):
     """Warrior special ability"""
