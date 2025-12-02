@@ -246,7 +246,30 @@ class SimpleBattle:
         # Check combat is active
         # Calculate damage
         # Apply to character
-        pass
+        
+        if not self.combat_active:
+            raise CombatNotActiveError("No battles active.")
+
+        print("\n=== ENEMY TURN ===")
+
+        # Enemy always attacks
+        damage = self.enemy["strength"]
+        self.character["health"] -= damage
+
+        print(f"The {self.enemy['type']} attacks you for {damage} damage!")
+
+        # Check player death
+        if self.character["health"] <= 0:
+            print("You have been defeated...") # Character receives defeat message
+
+            self.combat_active = False # Battle is over, combat_active = false
+
+            # Prints the battle result
+            self.battle_result = {
+            "winner": "enemy",
+            "xp_gained": 0,
+            "gold_gained": 0
+            }
     
     def calculate_damage(self, attacker, defender):
         """
