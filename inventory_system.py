@@ -323,7 +323,7 @@ def unequip_weapon(character, item_data):
     return equipped
 
 
-def unequip_armor(character):
+def unequip_armor(character, item_data):
     """
     Remove equipped armor and return it to inventory
     
@@ -331,7 +331,23 @@ def unequip_armor(character):
     Raises: InventoryFullError if inventory is full
     """
     # TODO: Implement armor unequipping
-    pass
+    
+    equipped = character.get("equipped_armor")
+
+    if not equipped:
+        return None
+
+    if get_inventory_space_remaining(character) <= 0:
+        raise InventoryFullError("Inventory is full")
+
+    armor_data = item_data[equipped]
+    stat, value = armor_data["effect"].split(":")
+    character[stat] -= int(value)
+
+    character["inventory"].append(equipped)
+    character["equipped_armor"] = None
+
+    return equipped
 
 # ============================================================================
 # SHOP SYSTEM
