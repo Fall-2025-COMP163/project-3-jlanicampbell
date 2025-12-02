@@ -2,7 +2,7 @@
 COMP 163 - Project 3: Quest Chronicles
 Character Manager Module - Starter Code
 
-Name: [Your Name Here]
+Name: Jelani Campbell
 
 AI Usage: [Document any AI assistance used]
 
@@ -34,20 +34,34 @@ def create_character(name, character_class):
     
     Raises: InvalidCharacterClassError if class is not valid
     """
-    # TODO: Implement character creation
-    # Validate character_class first
-    # Example base stats:
-    # Warrior: health=120, strength=15, magic=5
-    # Mage: health=80, strength=8, magic=20
-    # Rogue: health=90, strength=12, magic=10
-    # Cleric: health=100, strength=10, magic=15
-    
-    # All characters start with:
-    # - level=1, experience=0, gold=100
-    # - inventory=[], active_quests=[], completed_quests=[]
-    
-    # Raise InvalidCharacterClassError if class not in valid list
-    pass
+    valid_char_classes = ["Warrior", "Mage", "Rogue", "Cleric"]
+
+    if character_class not in validate_character_data:
+        raise InvalidCharacterClassError(f"{character_class} is not an available class.")
+        
+    base_stats = {
+        "Warrior": {"health": 120, "strength": 15, "magic": 5}, 
+        "Mage":    {"health": 80,  "strength": 8,  "magic": 20},
+        "Rogue":   {"health": 90,  "strength": 12, "magic": 10},
+        "Cleric":  {"health": 100, "strength": 10, "magic": 15}
+    }
+
+    stats = base_stats[character_class]
+
+    return {
+        "name": name,
+        "class": character_class,
+        "level": 1,
+        "health": stats["health"],
+        "max_health": stats["health"],
+        "strength": stats["strength"],
+        "magic": stats["magic"],
+        "experience": 0, # experience amount begins at 0.
+        "gold": 100, # every character starts with 100 gold.
+        "inventory": [], # inventory is empty by default, can be added to later.
+        "active_quests": [], # no active quests by default.
+        "completed_quests": [] # no completed quests by default (no active quests).
+    }
 
 def save_character(character, save_directory="data/save_games"):
     """
