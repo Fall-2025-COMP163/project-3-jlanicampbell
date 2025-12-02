@@ -83,7 +83,12 @@ def has_item(character, item_id):
     Returns: True if item in inventory, False otherwise
     """
     # TODO: Implement item check
-    pass
+   
+    if item_id in character["inventory"]:
+        return True
+    
+    else:
+        return False
 
 def count_item(character, item_id):
     """
