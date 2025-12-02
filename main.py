@@ -323,7 +323,71 @@ def view_inventory():
     # Show current inventory
     # Options: Use item, Equip weapon/armor, Drop item
     # Handle exceptions from inventory_system
-    pass
+    
+    inv = current_character["inventory"]
+
+    print("\n=== INVENTORY ===")
+    if not inv:
+        print("Inventory is empty.")
+        return
+
+    # Show inventory with item names
+    for idx, item_id in enumerate(inv, 1):
+        item_info = all_items.get(item_id, {"name": "UNKNOWN"})
+        print(f"{idx}. {item_info['name']} ({item_info.get('type', 'unknown')})")
+
+    print("\nOptions:")
+    print("1. Use Item")
+    print("2. Equip Item")
+    print("3. Drop Item")
+    print("4. Back")
+
+    try:
+        choice = int(input("Select an option: "))
+    except ValueError:
+        print("Invalid input.")
+        return
+
+    if choice == 4:
+        return
+
+    try:
+        item_choice = int(input("Which item number? ")) - 1
+        item_id = inv[item_choice]
+        item_data = all_items[item_id]
+    except:
+        print("Invalid item selection.")
+        return
+
+    # Use item
+    if choice == 1:
+        try:
+            result = inventory_system.use_item(current_character, item_id, item_data)
+            print(result)
+        except Exception as e:
+            print(f"Error: {e}")
+
+    # Equip item
+    elif choice == 2:
+        try:
+            t = item_data["type"]
+            if t == "weapon":
+                print(inventory_system.equip_weapon(current_character, item_id, item_data))
+            elif t == "armor":
+                print(inventory_system.equip_armor(current_character, item_id, item_data))
+            else:
+                print("This item cannot be equipped.")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    # Drop item
+    elif choice == 3:
+        try:
+            inventory_system.remove_item_from_inventory(current_character, item_id)
+            print(f"Dropped {item_data['name']}.")
+        except Exception as e:
+            print(f"Error: {e}")
+
 
 def quest_menu():
     """Quest management menu"""
