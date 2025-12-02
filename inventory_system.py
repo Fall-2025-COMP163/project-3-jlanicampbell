@@ -157,7 +157,23 @@ def use_item(character, item_id, item_data):
     # Parse effect (format: "stat_name:value" e.g., "health:20")
     # Apply effect to character
     # Remove item from inventory
-    pass
+    
+    if item_id not in character["inventory"]:
+        raise ItemNotFoundError(f"Item '{item_id}' not found in inventory")
+
+    if item_data["type"] != "consumable":
+        raise InvalidItemTypeError("Item type cannot be used")
+
+    # Parse effect such as "health:20"
+    stat, value = item_data["effect"].split(":")
+    value = int(value)
+
+    character[stat] = min(character.get("max_" + stat, float('inf')), character[stat] + value)
+
+    character["inventory"].remove(item_id)
+
+    return f"Used {item_id}, {stat} increased by {value}"
+
 
 def equip_weapon(character, item_id, item_data):
     """
