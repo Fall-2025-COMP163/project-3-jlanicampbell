@@ -314,12 +314,29 @@ def validate_character_data(character):
     Returns: True if valid
     Raises: InvalidSaveDataError if missing fields or invalid types
     """
-    # TODO: Implement validation
-    # Check all required keys exist
-    # Check that numeric values are numbers
-    # Check that lists are actually lists
-    pass
+    required_fields = {
+        "name": str,
+        "class": str,
+        "level": int,
+        "health": int,
+        "max_health": int,
+        "strength": int,
+        "magic": int,
+        "experience": int,
+        "gold": int,
+        "inventory": list,
+        "active_quests": list,
+        "completed_quests": list
+    }
 
+    for field, expected_type in required_fields.items():
+        if field not in character:
+            raise InvalidSaveDataError(f"Missing required field: {field}")
+        value = character[field]
+        if not isinstance(value, expected_type):
+            raise InvalidSaveDataError(f"Field '{field}' must be of type {expected_type.__name__}")
+
+    return True
 # ============================================================================
 # TESTING
 # ============================================================================
