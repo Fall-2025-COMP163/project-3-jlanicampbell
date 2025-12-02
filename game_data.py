@@ -166,7 +166,30 @@ def validate_quest_data(quest_dict):
     # TODO: Implement validation
     # Check that all required keys exist
     # Check that numeric values are actually numbers
-    pass
+    
+    required_fields = {
+        "quest_id": str,
+        "title": str,
+        "description": str,
+        "reward_xp": int,
+        "reward_gold": int,
+        "required_level": int,
+        "prerequisite": str,
+    }
+
+    # Loop through the required fields and check if they are in the quest_dict
+    for key, expected_type in required_fields.items():
+        # Check if the key exists in the quest_dict
+        if key not in quest_dict:
+            raise InvalidDataFormatError(f"Missing required field: {key}")
+        
+        # Check if the field's value type matches the expected type
+        if not isinstance(quest_dict[key], expected_type):
+            raise InvalidDataFormatError(f"Field '{key}' should be of type {expected_type.__name__}, but got {type(quest_dict[key]).__name__}.")
+    
+    # If no issues were found, return True indicating the data is valid
+    return True
+    
 
 def validate_item_data(item_dict):
     """
