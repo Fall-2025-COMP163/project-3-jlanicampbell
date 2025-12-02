@@ -256,7 +256,37 @@ def equip_armor(character, item_id, item_data):
     """
     # TODO: Implement armor equipping
     # Similar to equip_weapon but for armor
-    pass
+    
+    if item_id not in character["inventory"]:
+        raise ItemNotFoundError(f"Armor '{item_id}' not found in inventory")
+
+    item = item_data
+
+    # Must be armor
+    if item["type"] != "armor":
+        raise InvalidItemTypeError(f"Item '{item_id}' is not armor")
+
+    # If armor already equipped, remove its effect first
+    if character.get("equipped_armor"):
+        old_armor = character["equipped_armor"]
+        old_data = item_data[old_armor]
+        stat, value = old_data["effect"].split(":")
+        character[stat] -= int(value)
+
+        # Return old armor to inventory
+        character["inventory"].append(old_armor)
+
+    # Apply new armor effect
+    stat, value = item["effect"].split(":")
+    character[stat] += int(value)
+
+    # Set equipped armor
+    character["equipped_armor"] = item_id
+
+    # Remove from inventory
+    character["inventory"].remove(item_id)
+
+    return f"Equipped {item_id}, {stat} increased by {value}"
 
 def unequip_weapon(character):
     """
