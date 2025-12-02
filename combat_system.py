@@ -400,8 +400,19 @@ def rogue_critical_strike(character, enemy):
     """Rogue special ability"""
     # TODO: Implement critical strike
     # 50% chance for triple damage
-    pass
+    
+    # 50% chance determined by even enemy health
+    crit = (enemy["health"] % 2 == 0)
 
+    if crit:
+        damage = character["strength"] * 3
+        enemy["health"] -= damage
+        return f'{character["name"]} landed a CRITICAL STRIKE for {damage} damage!'
+    else:
+        damage = character["strength"]  # normal damage
+        enemy["health"] -= damage
+        return f'{character["name"]} attacked for {damage} damage.'
+    
 def cleric_heal(character):
     """Cleric special ability"""
     # TODO: Implement healing
