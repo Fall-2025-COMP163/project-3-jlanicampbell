@@ -123,7 +123,11 @@ def clear_inventory(character):
     # TODO: Implement inventory clearing
     # Save current inventory before clearing
     # Clear character's inventory list
-    pass
+    
+    removed_items = character["inventory"][:]  # copy so we don’t lose items
+    character["inventory"].clear()            # empty inventory
+    return removed_items
+
 
 # ============================================================================
 # ITEM USAGE
