@@ -516,7 +516,7 @@ def shop():
     # Show current gold
     # Options: Buy item, Sell item, Back
     # Handle exceptions from inventory_system
-    
+
     while True:
         print("\n=== SHOP MENU ===")
         print(f"Your Gold: {current_character['gold']}")
@@ -595,7 +595,12 @@ def save_game():
     # TODO: Implement save
     # Use character_manager.save_character()
     # Handle any file I/O exceptions
-    pass
+    
+    try:
+        character_manager.save_character(current_character)
+        print("\nGame saved successfully!\n")
+    except Exception as e:
+        print(f"[ERROR] Failed to save game: {e}")
 
 def load_game_data():
     """Load all quest and item data from files"""
