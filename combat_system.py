@@ -281,7 +281,15 @@ class SimpleBattle:
         Returns: Integer damage amount
         """
         # TODO: Implement damage calculation
-        pass
+        
+        damage_amount = attacker["strength"] - (defender["strength"] // 4) # Used Damage Formula
+
+        if damage_amount < 1:
+            damage_amount = 1 # Minimum amount of damage that can be done
+
+        return int(damage_amount) # Returns integer amount
+    
+
     
     def apply_damage(self, target, damage):
         """
