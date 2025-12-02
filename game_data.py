@@ -41,7 +41,53 @@ def load_quests(filename="data/quests.txt"):
     # - FileNotFoundError → raise MissingDataFileError
     # - Invalid format → raise InvalidDataFormatError
     # - Corrupted/unreadable data → raise CorruptedDataError
-    pass
+    
+    import os
+
+    if not os.path.exists(filename):
+        raise MissingDataFileError(f"Quest file not found: {filename}")
+
+    quests = {}
+    try:
+        with open(filename, "r") as f:
+            lines = f.read().splitlines()
+
+        current_quest = {}
+        for line in lines + [""]:
+            line = line.strip()
+            if line == "":
+                if current_quest:
+                    required_fields = ["QUEST_ID", "TITLE", "DESCRIPTION",
+                                       "REWARD_XP", "REWARD_GOLD", "REQUIRED_LEVEL", "PREREQUISITE"]
+                    for field in required_fields:
+                        if field not in current_quest:
+                            raise InvalidDataFormatError(f"Missing field '{field}' in quest")
+                    quest_id = current_quest["QUEST_ID"]
+                    # Normalize keys to lowercase (should match test case calls)
+                    normalized_quest = {k.lower(): v for k, v in current_quest.items()}
+                    quests[quest_id] = normalized_quest
+                    current_quest = {}
+                continue
+
+            if ": " not in line:
+                raise InvalidDataFormatError(f"Invalid line format: {line}") # Custom exception for Invalid data formats
+
+            key, value = line.split(": ", 1)
+            key = key.strip()
+            value = value.strip()
+            if key in ["REWARD_XP", "REWARD_GOLD", "REQUIRED_LEVEL"]:
+                try:
+                    value = int(value)
+                except ValueError:
+                    raise InvalidDataFormatError(f"Expected integer for {key}, got '{value}'")
+            current_quest[key] = value
+
+    except InvalidDataFormatError:
+        raise
+    except Exception as e:
+        raise CorruptedDataError(f"Could not read quest file: {e}")
+
+    return quests
 
 def load_items(filename="data/items.txt"):
     """
