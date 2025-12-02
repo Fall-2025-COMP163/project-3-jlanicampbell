@@ -141,7 +141,7 @@ class SimpleBattle:
         # Check character isn't dead
         # Loop until someone dies
         # Award XP and gold if player wins
-        
+
         # Imported is_character_dead function from character_manager since it was needed to run this function. 
         from character_manager import is_character_dead
 
@@ -183,7 +183,56 @@ class SimpleBattle:
         # Display options
         # Get player choice
         # Execute chosen action
-        pass
+       
+        if not self.combat_active:
+            raise CombatNotActiveError("No battles active.") # Special exception to handle function calls while battle is inactive
+        
+        self.turn_counter += 1 # Adds a turn every time one is taken
+
+        print("\n=== PLAYER TURN ===")
+        print("1. Basic Attack")
+        print("2. Special Ability")
+        print("3. Run Away")
+
+        player_choice = input("Choose your move!:" \
+        "1: Basic Attack" \
+        "2: Heavy Attack (Special Ability) " \
+        "3: Run Away")
+
+        if player_choice == "1": # Basic Attack
+            damage = self.character["strength"] 
+            self.enemy["health"] -= damage # Enemy takes damage based off of Character strength
+            print(f"{self.character["Name"]} chose Basic attack: Dealt {damage} damage.")
+
+        elif player_choice == "2": # Heavy Attack/Special
+            damage = self.character["strength"]
+            self.enemy["health"] -= damage + 5 # Enemy takes extra damage (heavy attack)
+            print(f"{self.character["Name"]} chose Basic attack: Dealt {damage} damage.")
+
+        elif player_choice == "3": # Run Away (Chance)
+            escape_chance = self.enemy["strength"] // 5 # Equation for how your character can escape
+
+        if self.character["level"] >= escape_chance: 
+            print("You successfully ran away!")
+            self.combat_active = False
+            self.battle_result = {"winner": "none", "xp_gained": 0, "gold_gained": 0}
+            return
+        else:
+            print("You were not strong enough to escape!")
+
+    # CHECK FOR ENEMY DEATH
+        if self.enemy["health"] <= 0:
+            print(f"The {self.enemy['type']} has been defeated!")
+
+            self.combat_active = False # Fight ended, combat returns false 
+            self.battle_result = {
+            "winner": "player",
+            "xp_gained": self.enemy.get("xp_reward", 20),
+            "gold_gained": self.enemy.get("gold_reward", 10)
+        }
+
+        self.turn_counter += 1
+
     
     def enemy_turn(self):
         """
