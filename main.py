@@ -611,7 +611,33 @@ def load_game_data():
     # Try to load items with game_data.load_items()
     # Handle MissingDataFileError, InvalidDataFormatError
     # If files missing, create defaults with game_data.create_default_data_files()
-    pass
+    
+    try:
+        all_quests = game_data.load_quests()
+        all_items = game_data.load_items()
+
+    except MissingDataFileError:
+        print("[WARNING] Data files missing. Creating default files...")
+        game_data.create_default_data_files()
+
+        # Try loading again
+        try:
+            all_quests = game_data.load_quests()
+            all_items = game_data.load_items()
+        except Exception as e:
+            print(f"[ERROR] Failed to load data even after creating defaults: {e}")
+            all_quests = {}
+            all_items = {}
+
+    except InvalidDataFormatError as e:
+        print(f"[ERROR] Data file format invalid: {e}")
+        all_quests = {}
+        all_items = {}
+
+    except Exception as e:
+        print(f"[ERROR] Unexpected error loading data: {e}")
+        all_quests = {}
+        all_items = {}
 
 def handle_character_death():
     """Handle character death"""
