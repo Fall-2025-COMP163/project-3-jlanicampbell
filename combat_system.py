@@ -34,7 +34,47 @@ def create_enemy(enemy_type):
     """
     # TODO: Implement enemy creation
     # Return dictionary with: name, health, max_health, strength, magic, xp_reward, gold_reward
-    pass
+    enemies = {
+        "goblin": {
+            "name": "Goblin",
+            "type": "Goblin",
+            "health": 30,
+            "max_health": 30,
+            "strength": 5,
+            "magic": 0,
+            "xp_reward": 10,
+            "gold_reward": 5
+        },
+        "orc": {
+            "name": "Orc",
+            "type": "Orc",
+            "health": 50,
+            "max_health": 50,
+            "strength": 12,
+            "magic": 2,
+            "xp_reward": 20,
+            "gold_reward": 12
+        }
+    }
+
+    enemy_type = enemy_type.lower()  # normalize input
+
+    if enemy_type not in enemies:
+        raise InvalidTargetError(f"Unknown enemy: {enemy_type}")
+
+    # Return a new dictionary so modifications in battle don't affect template
+    e = enemies[enemy_type]
+    return {
+        "name": e["name"],
+        "type": e["type"],
+        "health": e["health"],
+        "max_health": e["max_health"],
+        "strength": e["strength"],
+        "magic": e["magic"],
+        "xp_reward": e["xp_reward"],
+        "gold_reward": e["gold_reward"]
+    }
+    
 
 def get_random_enemy_for_level(character_level):
     """
