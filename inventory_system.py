@@ -62,7 +62,19 @@ def remove_item_from_inventory(character, item_id):
     # TODO: Implement item removal
     # Check if item exists in inventory
     # Remove item from list
-    pass
+    
+    
+    inventory = character.get("inventory", [])
+
+    # Check if item exists
+    if item_id not in inventory:
+        raise ItemNotFoundError(f"Item '{item_id}' not found in inventory.")
+
+    # Remove it
+    inventory.remove(item_id)
+    character["inventory"] = inventory
+
+    return True
 
 def has_item(character, item_id):
     """
