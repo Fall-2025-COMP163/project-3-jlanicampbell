@@ -185,6 +185,8 @@ def game_loop():
     Main game loop - shows game menu and processes actions
     """
     global game_running, current_character
+
+    from character_manager import save_character # Imports at the top aren't working apparently
     
     game_running = True
     
@@ -194,7 +196,40 @@ def game_loop():
     #   Get player choice
     #   Execute chosen action
     #   Save game after each action
-    pass
+
+    while game_running:
+        print("\n=== GAME MENU ===")
+        print("1. View Character Stats")
+        print("2. View Inventory")
+        print("3. Go on Quest / Battle")
+        print("4. Save Game")
+        print("5. Exit to Main Menu")
+        
+        try:
+            choice = int(input("Select an option: "))
+        except ValueError:
+            print("Please enter a number.")
+            continue
+        
+        if choice == 1:
+            display_welcome(current_character, current_character.get("class", "Unknown"), current_character.get("level", 1))
+        elif choice == 2:
+            display_welcome(current_character, all_items)  # assuming all_items is loaded
+        elif choice == 3:
+            print("Starting quest or battle... (placeholder)")
+            # You can integrate quest_handler / combat_system here
+        elif choice == 4:
+            try:
+                save_character(current_character)
+                print("Game saved successfully.")
+            except Exception as e:
+                print(f"Error saving game: {e}")
+        elif choice == 5:
+            print("Exiting to main menu...")
+            game_running = False
+        else:
+            print("Invalid choice. Please select a number from 1-5.")
+    
 
 def game_menu():
     """
@@ -211,7 +246,7 @@ def game_menu():
     Returns: Integer choice (1-6)
     """
     # TODO: Implement game menu
-    pass
+    
 
 # ============================================================================
 # GAME ACTIONS
