@@ -516,7 +516,73 @@ def shop():
     # Show current gold
     # Options: Buy item, Sell item, Back
     # Handle exceptions from inventory_system
-    pass
+    
+    while True:
+        print("\n=== SHOP MENU ===")
+        print(f"Your Gold: {current_character['gold']}")
+        print("Items for Sale:")
+
+        item_list = list(all_items.items())
+        for index, (item_id, item) in enumerate(item_list, 1):
+            print(f"{index}. {item['name']} ({item['type']}), Cost: {item['cost']} gold")
+
+        print("\nOptions:")
+        print("1. Buy Item")
+        print("2. Sell Item")
+        print("3. Back")
+
+        try:
+            choice = int(input("Choose an option: "))
+        except ValueError:
+            print("Invalid input. Enter a number.")
+            continue
+
+        # Return to previous menu
+        if choice == 3:
+            return
+
+        # BUY ITEM
+        if choice == 1:
+            try:
+                num = int(input("Enter item number to buy: ")) - 1
+                item_id, item_data = item_list[num]
+
+                inventory_system.purchase_item(current_character, item_id, item_data)
+                print(f"Purchased {item_data['name']}!")
+
+            except IndexError:
+                print("Invalid item number.")
+            except Exception as e:
+                print(f"Error: {e}")
+
+        # SELL ITEM
+        elif choice == 2:
+            inv = current_character["inventory"]
+
+            if not inv:
+                print("Your inventory is empty.")
+                continue
+
+            print("\nYour Items:")
+            for idx, item_id in enumerate(inv, 1):
+                item = all_items[item_id]
+                print(f"{idx}. {item['name']} ({item['type']})")
+
+            try:
+                num = int(input("Enter item number to sell: ")) - 1
+                item_id = inv[num]
+                item_data = all_items[item_id]
+
+                gold_received = inventory_system.sell_item(current_character, item_id, item_data)
+                print(f"Sold {item_data['name']} for {gold_received} gold.")
+
+            except IndexError:
+                print("Invalid item number.")
+            except Exception as e:
+                print(f"Error: {e}")
+
+        else:
+            print("Invalid choice. Pick 1, 2, or 3.")
 
 # ============================================================================
 # HELPER FUNCTIONS
