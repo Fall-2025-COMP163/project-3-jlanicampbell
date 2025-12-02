@@ -286,9 +286,18 @@ def revive_character(character):
     
     Returns: True if revived
     """
-    # TODO: Implement revival
-    # Restore health to half of max_health
-    pass
+  # Check if character is actually dead
+    if not is_character_dead(character):
+        return False  # If the character is alive, they obviously cannot be revived
+    
+
+    # Characters are revived with half of their max health
+    half_health = character["max_health"] // 2  # using floor division for integers
+
+    character["health"] = half_health # assigning result to character's main health attribute
+
+    return True
+    
 
 # ============================================================================
 # VALIDATION
