@@ -106,7 +106,52 @@ def load_items(filename="data/items.txt"):
     """
     # TODO: Implement this function
     # Must handle same exceptions as load_quests
-    pass
+    
+    import os
+
+    if not os.path.exists(filename):
+        raise MissingDataFileError(f"Item file not found: {filename}")
+
+    items = {}
+    try:
+        with open(filename, "r") as f:
+            lines = f.read().splitlines()
+
+        current_item = {}
+        for line in lines + [""]:
+            line = line.strip()
+            if line == "":
+                if current_item:
+                    required_fields = ["ITEM_ID", "NAME", "TYPE", "EFFECT", "COST", "DESCRIPTION"]
+                    for field in required_fields:
+                        if field not in current_item:
+                            raise InvalidDataFormatError(f"Missing field '{field}' in item")
+                    item_id = current_item["ITEM_ID"]
+                    # Normalize keys to lowercase
+                    normalized_item = {k.lower(): v for k, v in current_item.items()}
+                    items[item_id] = normalized_item
+                    current_item = {}
+                continue
+
+            if ": " not in line:
+                raise InvalidDataFormatError(f"Invalid line format: {line}")
+
+            key, value = line.split(": ", 1)
+            key = key.strip()
+            value = value.strip()
+            if key == "COST":
+                try:
+                    value = int(value)
+                except ValueError:
+                    raise InvalidDataFormatError(f"Expected integer for COST, got '{value}'")
+            current_item[key] = value
+
+    except InvalidDataFormatError:
+        raise
+    except Exception as e:
+        raise CorruptedDataError(f"Could not read item file: {e}")
+
+    return items
 
 def validate_quest_data(quest_dict):
     """
