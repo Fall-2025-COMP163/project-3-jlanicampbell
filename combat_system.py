@@ -391,7 +391,10 @@ def mage_fireball(character, enemy):
     """Mage special ability"""
     # TODO: Implement fireball
     # Double magic damage
-    pass
+    
+    damage = character["magic"] * 2
+    enemy["health"] -= damage
+    return f'{character["name"]} cast Fireball for {damage} damage!'
 
 def rogue_critical_strike(character, enemy):
     """Rogue special ability"""
