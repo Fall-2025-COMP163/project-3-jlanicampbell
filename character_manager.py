@@ -118,12 +118,46 @@ def load_character(character_name, save_directory="data/save_games"):
         SaveFileCorruptedError if file exists but can't be read
         InvalidSaveDataError if data format is wrong
     """
-    # TODO: Implement load functionality
-    # Check if file exists → CharacterNotFoundError
-    # Try to read file → SaveFileCorruptedError
-    # Validate data format → InvalidSaveDataError
-    # Parse comma-separated lists back into Python lists
-    pass
+    from custom_exceptions import CharacterDeadError, InvalidSaveDataError
+
+    # Build full file path for the save file
+    filepath = os.path.join(save_directory, f"{character_name}_save.txt")
+
+    # Check if the file exists
+    if not os.path.exists(filepath):
+        raise CharacterNotFoundError(f"Save file not found for: {character_name}")
+
+    character = {}
+
+    try:
+        with open(filepath, "r") as f:
+            for line in f:
+                # Skip lines that don't contain a colon (invalid line)
+                if ":" not in line:
+                    continue
+
+                # Split at the first colon into key and value
+                key, value = line.strip().split(":", 1)
+
+                # Strip extra whitespace from key and value
+                key = key.strip()
+                value = value.strip()
+
+                # Convert comma-separated strings back into lists
+                if "," in value:
+                    value = value.split(",")
+                # Convert numeric strings to integers
+                elif value.isdigit():
+                    value = int(value)
+
+                # Store in character dictionary
+                character[key] = value
+
+    except Exception as e:
+        # If any issue occurs while reading or parsing the file, raise an error
+        raise InvalidSaveDataError(f"Save data format is invalid for {character_name}: {e}")
+
+    return character
 
 def list_saved_characters(save_directory="data/save_games"):
     """
