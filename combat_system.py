@@ -333,7 +333,13 @@ class SimpleBattle:
         # TODO: Implement escape attempt
         # Use random number or simple calculation
         # If successful, set combat_active to False
-        pass
+        
+        if self.character["magic"] > self.enemy["strength"]: # Escapes are based on if character magic is greater than enemy strength
+            self.combat_active = False
+            return True
+        
+        return False
+
 
 # ============================================================================
 # SPECIAL ABILITIES
@@ -356,7 +362,8 @@ def use_special_ability(character, enemy):
     # Check character class
     # Execute appropriate ability
     # Track cooldowns (optional advanced feature)
-    pass
+    
+    
 
 def warrior_power_strike(character, enemy):
     """Warrior special ability"""
