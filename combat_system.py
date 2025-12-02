@@ -311,7 +311,16 @@ class SimpleBattle:
         Returns: 'player' if enemy dead, 'enemy' if character dead, None if ongoing
         """
         # TODO: Implement battle end check
-        pass
+        
+        if self.character["health"] <= 0:
+            return "enemy"
+        
+        if self.enemy["health"] <= 0:
+            return "player"
+        
+        else:
+            return None # only if both characters are still alive
+        
     
     def attempt_escape(self):
         """
