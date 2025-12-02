@@ -141,7 +141,31 @@ class SimpleBattle:
         # Check character isn't dead
         # Loop until someone dies
         # Award XP and gold if player wins
-        pass
+        
+        # Imported is_character_dead function from character_manager since it was needed to run this function. 
+        from character_manager import is_character_dead
+
+        # Make sure character is alive
+        if is_character_dead(self.character):
+            raise CharacterDeadError("Character is already dead, cannot start battle.")
+
+        # Initialize battle results
+        battle_results = {
+            "winner": None,
+            "xp_gained": 0,
+            "gold_gained": 0
+        }
+
+        # Example: turn counter starts at 1
+        self.turn_counter = 1
+
+        # TODO: Implement actual battle loop here
+        # while self.combat_active:
+        #     self.player_turn()
+        #     self.enemy_turn()
+        #     check for death/winner
+
+        return battle_results
     
     def player_turn(self):
         """
