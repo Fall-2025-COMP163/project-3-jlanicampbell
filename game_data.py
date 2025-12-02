@@ -213,7 +213,43 @@ def create_default_data_files():
     # Create data/ directory if it doesn't exist
     # Create default quests.txt and items.txt files
     # Handle any file permission errors appropriately
-    pass
+    
+    data_dir = "data"
+    os.makedirs(data_dir, exist_ok=True)  # Create data directory if missing
+
+    # Default quests file
+    quests_file = os.path.join(data_dir, "quests.txt")
+    if not os.path.exists(quests_file):
+        try:
+            with open(quests_file, "w") as f:
+                f.write(
+                    "QUEST_ID:quest_001\n"
+                    "TITLE:First Adventure\n"
+                    "DESCRIPTION:Begin your journey.\n"
+                    "REWARD_XP:100\n"
+                    "REWARD_GOLD:50\n"
+                    "REQUIRED_LEVEL:1\n"
+                    "PREREQUISITE:NONE\n\n"
+                )
+        except PermissionError:
+            print("Permission denied: Cannot create default quests.txt")
+
+    # Default items file
+    items_file = os.path.join(data_dir, "items.txt")
+    if not os.path.exists(items_file):
+        try:
+            with open(items_file, "w") as f:
+                f.write(
+                    "ITEM_ID:item_001\n"
+                    "NAME:Health Potion\n"
+                    "TYPE:consumable\n"
+                    "EFFECT:health:20\n"
+                    "COST:10\n"
+                    "DESCRIPTION:Restores 20 health.\n\n"
+                )
+        except PermissionError:
+            print("Permission denied: Cannot create default items.txt")
+
 
 # ============================================================================
 # HELPER FUNCTIONS
