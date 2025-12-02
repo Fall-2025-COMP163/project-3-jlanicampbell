@@ -165,10 +165,15 @@ def list_saved_characters(save_directory="data/save_games"):
     
     Returns: List of character names (without _save.txt extension)
     """
-    # TODO: Implement this function
-    # Return empty list if directory doesn't exist
-    # Extract character names from filenames
-    pass
+      
+    if not os.path.exists(save_directory):
+        return []
+    files = os.listdir(save_directory)
+    return [f.replace("_save.txt", "") for f in files if f.endswith("_save.txt")]
+
+
+ # I used ChatGPT for the commands above 
+ # They act as a filter for files that end with "_save.txt" only, and keeps the ones that do.
 
 def delete_character(character_name, save_directory="data/save_games"):
     """
