@@ -48,7 +48,23 @@ def main_menu():
     # Get user input
     # Validate input (1-3)
     # Return choice
-    pass
+    
+    while True:
+        print("=== MAIN MENU - Choose an option: ===")
+        print("1: New Game")
+        print("2: Load Game")
+        print("3: Exit")
+        
+        try:
+            menu_choice = int(input("Mode Selection (1-3): "))
+        except ValueError:
+            print("Invalid input. Please enter a number between 1 and 3.")
+            continue
+
+        if menu_choice in range(1, 4):
+            return menu_choice
+        else:
+            print("Invalid Mode Choice. Please choose a number between 1 and 3.")
 
 def new_game():
     """
