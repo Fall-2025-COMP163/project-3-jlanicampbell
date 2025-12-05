@@ -202,12 +202,12 @@ class SimpleBattle:
         if player_choice == "1": # Basic Attack
             damage = self.character["strength"] 
             self.enemy["health"] -= damage # Enemy takes damage based off of Character strength
-            print(f"{self.character["Name"]} chose Basic attack: Dealt {damage} damage.")
+            print(f'{self.character["name"]} chose Basic attack: Dealt {damage} damage.')
 
         elif player_choice == "2": # Heavy Attack/Special
             damage = self.character["strength"]
             self.enemy["health"] -= damage + 5 # Enemy takes extra damage (heavy attack)
-            print(f"{self.character["Name"]} chose Basic attack: Dealt {damage} damage.")
+            print(f'{self.character["name"]} chose Basic attack: Dealt {damage} damage.')
 
         elif player_choice == "3": # Run Away (Chance)
             escape_chance = self.enemy["strength"] // 5 # Equation for how your character can escape
